@@ -13,15 +13,16 @@
     font-family: sans-serif;
   }
 
-  /* 背景動画 */
+  /* 背景動画（fixed が最も安定） */
   video {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
     object-fit: cover;
     z-index: -1;
+    background: black;
   }
 
   /* テキストレイヤー */
@@ -52,7 +53,7 @@
 </head>
 <body>
 
-  <video autoplay muted loop playsinline preload="auto">
+  <video autoplay muted loop playsinline webkit-playsinline preload="auto">
     <source src="bgmv.mp4" type="video/mp4">
   </video>
 
