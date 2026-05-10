@@ -14,13 +14,13 @@
 
   #bgvideo {
     position: fixed;
-    top: 50%;
-    left: 50%;
-    width: 100%;
-    height: 100%;
-    transform: translate(-50%, -50%);
-    object-fit: contain; /* ★ズームしすぎを防ぐ */
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    object-fit: contain; /* ズームしすぎ防止 */
     z-index: -1;
+    background: black;
   }
 
   .content {
