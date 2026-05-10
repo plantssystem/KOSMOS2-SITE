@@ -8,25 +8,43 @@
     margin: 0;
     padding: 0;
     height: 100%;
-    background: black;
     overflow: hidden;
   }
-  iframe {
+
+  /* 背景動画 */
+  #bgvideo {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    border: none;
+    top: 50%;
+    left: 50%;
+    min-width: 100%;
+    min-height: 100%;
+    width: auto;
+    height: auto;
+    transform: translate(-50%, -50%);
+    z-index: -1;
+    object-fit: cover;
+  }
+
+  /* 上に載せるコンテンツ */
+  .content {
+    position: relative;
+    z-index: 10;
+    color: white;
+    font-size: 2rem;
+    padding: 40px;
   }
 </style>
 </head>
 <body>
 
-  <iframe
-    src="https://www.youtube.com/embed/FyKJ0lwDYQ4?autoplay=1&mute=1&playsinline=1&loop=1&playlist=FyKJ0lwDYQ4"
-    allowfullscreen>
-  </iframe>
+  <!-- ★ KOSMOS2-SITE に置いた mp4 を指定する -->
+  <video id="bgvideo" autoplay muted loop playsinline>
+    <source src="video.mp4" type="video/mp4">
+  </video>
+
+  <div class="content">
+    KOSMOS2 — Video Background
+  </div>
 
 </body>
 </html>
