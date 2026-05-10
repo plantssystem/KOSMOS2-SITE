@@ -13,18 +13,17 @@
     font-family: sans-serif;
   }
 
-  /* 背景動画 */
+  /* Safari でも止まらない背景動画 */
   video {
-    position: fixed;
+    position: absolute; /* ← fixed をやめるのがポイント */
     top: 0;
     left: 0;
-    width: 100vw;
-    height: 100vh;
+    width: 100%;
+    height: 100%;
     object-fit: cover; /* 画面にピッタリ */
     z-index: -1;
   }
 
-  /* テキストレイヤー */
   .overlay {
     position: absolute;
     top: 50%;
@@ -60,8 +59,8 @@
   <div class="overlay">
     <div class="title">KOSMOS2</div>
     <div class="desc">
-      KOSMOS2 is a generative sound engine designed for minimal, evolving patterns.  
-      It runs entirely on embedded hardware and creates autonomous musical structures  
+      KOSMOS2 is a generative sound engine designed for minimal, evolving patterns.
+      It runs entirely on embedded hardware and creates autonomous musical structures
       through four interacting parts: Melody, Bass, Chord, and Sequence.
     </div>
   </div>
