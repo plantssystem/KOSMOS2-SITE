@@ -8,39 +8,20 @@
     margin: 0;
     padding: 0;
     height: 100%;
-    overflow: hidden;
     background: black;
   }
 
-  #bgvideo {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    object-fit: contain; /* ズームしすぎ防止 */
-    z-index: -1;
-    background: black;
-  }
-
-  .content {
-    position: relative;
-    z-index: 10;
-    color: white;
-    font-size: 2rem;
-    padding: 40px;
+  video {
+    width: 100%;
+    height: auto;
   }
 </style>
 </head>
 <body>
 
-  <video id="bgvideo" autoplay muted loop playsinline>
+  <video autoplay muted loop playsinline>
     <source src="video.mp4" type="video/mp4">
   </video>
-
-  <div class="content">
-    KOSMOS2-SITE
-  </div>
 
 </body>
 </html>
