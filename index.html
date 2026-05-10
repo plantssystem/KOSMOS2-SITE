@@ -1,23 +1,32 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-  <meta charset="UTF-8">
-  <title>KOSMOS2 Demo</title>
-  <style>
-    body { font-family: sans-serif; padding: 40px; background: #111; color: #eee; }
-    h1 { color: #6cf; }
-    .video { margin-top: 20px; }
-  </style>
+<meta charset="UTF-8">
+<title>KOSMOS-SITE</title>
+<style>
+  html, body {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    background: black;
+    overflow: hidden;
+  }
+  iframe {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    border: none;
+  }
+</style>
 </head>
 <body>
-  <h1>KOSMOS2 Demo</h1>
-  <p>ここに KOSMOS2 の説明や画像、動画を置けます。</p>
 
-  <div class="video">
-    <!-- YouTube 埋め込み例 -->
-    <iframe width="560" height="315"
-      src="https://youtube.com/shorts/FyKJ0lwDYQ4?feature=share"
-      frameborder="0" allowfullscreen></iframe>
-  </div>
+  <iframe
+    src="https://www.youtube.com/embed/FyKJ0lwDYQ4?autoplay=1&mute=1&playsinline=1"
+    allowfullscreen>
+  </iframe>
+
 </body>
 </html>
