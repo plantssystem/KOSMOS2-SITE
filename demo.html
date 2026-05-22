@@ -100,10 +100,34 @@
 
   <h1>KOSMOS2</h1>
 
-  <iframe
-    src="https://www.youtube.com/embed/2WfGMvcNGGk"
-    allowfullscreen>
-  </iframe>
+  <div class="yt-container">
+    <iframe
+      src="https://www.youtube.com/embed/2WfGMvcNGGk"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+<style>
+.yt-container {
+  position: relative;
+  width: 90%;
+  max-width: 400px;
+  margin: 0 auto;
+  padding-top: 56.25%; /* 9/16 = 0.5625 */
+  z-index: 10;
+}
+
+.yt-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border: none;
+  border-radius: 12px;
+}
+</style>
+
 
   <div id="waveform"></div>
 
