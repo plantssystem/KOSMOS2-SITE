@@ -13,6 +13,7 @@
     background: #000;
     font-family: Arial, sans-serif;
     color: white;
+    overflow-x: hidden;
   }
 
   /* 左上の横長プレビュー動画 */
@@ -20,8 +21,8 @@
     position: fixed;
     top: 20px;
     left: 20px;
-    width: 240px;     /* 横長 */
-    height: 135px;    /* 16:9 の高さ */
+    width: 240px;
+    height: 135px; /* 16:9 */
     object-fit: cover;
     border-radius: 12px;
     opacity: 0.9;
@@ -33,55 +34,39 @@
     position: relative;
     z-index: 10;
     text-align: center;
-    width: 90%;
+    width: 100%;
     max-width: 900px;
     margin: 0 auto;
-    padding-top: 80px;
+    padding-top: 200px; /* プレビュー動画と被らないように調整 */
   }
 
-  h1 {
-    font-size: 4rem;
-    font-weight: 900;
-    margin-bottom: 20px;
-    letter-spacing: 2px;
-  }
-
-  h2 {
-    font-size: 2rem;
-    margin-top: 40px;
-    margin-bottom: 20px;
-  }
-
-  /* Shorts の黒帯ゼロ縦長表示 */
-  .yt-container {
-    position: relative;
-    width: 90%;
-    max-width: 400px;
+  /* Shorts を高さ600pxに収める */
+  .yt-fixed {
+    width: 338px;   /* 600px × 9/16 */
+    height: 600px;
     margin: 0 auto;
-    padding-top: 177.78%; /* 9:16 */
+    border-radius: 12px;
+    overflow: hidden;
   }
 
-  .yt-container iframe {
-    position: absolute;
-    top: 0;
-    left: 0;
+  .yt-fixed iframe {
     width: 100%;
     height: 100%;
     border: none;
-    border-radius: 12px;
   }
 
   /* 波形 */
   #waveform {
-    width: 100%;
+    width: 90%;
+    max-width: 600px;
     height: 128px;
-    margin-top: 20px;
+    margin: 30px auto 10px auto;
     background: rgba(255,255,255,0.1);
     border-radius: 12px;
   }
 
   .audio-controls {
-    margin-top: 10px;
+    margin-bottom: 40px;
   }
 
   button {
@@ -111,13 +96,15 @@
 
 <div class="overlay">
 
-  <div class="yt-container">
+  <!-- 高さ600pxに収めた Shorts -->
+  <div class="yt-fixed">
     <iframe
       src="https://www.youtube.com/embed/FyKJ0lwDYQ4"
       allowfullscreen>
     </iframe>
   </div>
 
+  <!-- 波形 -->
   <div id="waveform"></div>
 
   <div class="audio-controls">
