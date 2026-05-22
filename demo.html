@@ -15,17 +15,17 @@
     color: white;
   }
 
-  /* 左上の小さな正方形動画 */
-  #small-video {
+  /* 左上の横長プレビュー動画 */
+  #preview-video {
     position: fixed;
     top: 20px;
     left: 20px;
-    width: 160px;
-    height: 160px;
+    width: 240px;     /* 横長 */
+    height: 135px;    /* 16:9 の高さ */
     object-fit: cover;
     border-radius: 12px;
-    z-index: 5;
     opacity: 0.9;
+    z-index: 5;
   }
 
   /* メインコンテンツ */
@@ -104,8 +104,8 @@
 </head>
 <body>
 
-<!-- 左上の小さな動画 -->
-<video autoplay loop muted playsinline id="small-video">
+<!-- 左上の横長プレビュー動画 -->
+<video autoplay loop muted playsinline id="preview-video">
   <source src="bgmv4.mp4" type="video/mp4">
 </video>
 
