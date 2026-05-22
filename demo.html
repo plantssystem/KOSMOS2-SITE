@@ -29,7 +29,7 @@
     z-index: 5;
   }
 
-  /* メインコンテンツ */
+  /* メインコンテンツ（上に詰める） */
   .overlay {
     position: relative;
     z-index: 10;
@@ -37,14 +37,15 @@
     width: 100%;
     max-width: 900px;
     margin: 0 auto;
-    padding-top: 200px; /* プレビュー動画と被らないように調整 */
+    padding-top: 140px; /* ← 200px → 140px に変更して上へ */
   }
 
   /* Shorts を高さ600pxに収める */
   .yt-fixed {
-    width: 338px;   /* 600px × 9/16 */
+    width: 338px;
     height: 600px;
     margin: 0 auto;
+    margin-top: -10px; /* ← 少し上に詰める */
     border-radius: 12px;
     overflow: hidden;
   }
@@ -55,12 +56,12 @@
     border: none;
   }
 
-  /* 波形 */
+  /* 波形（上に詰める） */
   #waveform {
     width: 90%;
     max-width: 600px;
     height: 128px;
-    margin: 30px auto 10px auto;
+    margin: 20px auto 10px auto; /* ← 上の余白を30px→20pxに */
     background: rgba(255,255,255,0.1);
     border-radius: 12px;
   }
