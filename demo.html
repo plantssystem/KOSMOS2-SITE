@@ -18,10 +18,21 @@
       line-height: 1.6;
     }
 
+    /* 背景動画 */
+    #bgvideo {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      z-index: -1;
+    }
+
     header {
       padding: 40px 20px;
       text-align: center;
-      background: #000;
+      background: rgba(0,0,0,0.5);
     }
 
     h1 {
@@ -34,6 +45,9 @@
       padding: 40px 20px;
       max-width: 900px;
       margin: auto;
+      background: rgba(0,0,0,0.5);
+      border-radius: 12px;
+      margin-top: 40px;
     }
 
     iframe {
@@ -47,7 +61,7 @@
       width: 100%;
       height: 128px;
       margin-top: 20px;
-      background: #222;
+      background: rgba(0,0,0,0.4);
       border-radius: 8px;
     }
 
@@ -74,24 +88,23 @@
 
 <body>
 
+<!-- ★ 背景動画（最背面） -->
+<video id="bgvideo" autoplay muted loop playsinline webkit-playsinline preload="auto">
+  <source src="bgmv4.mp4" type="video/mp4">
+</video>
+
 <header>
   <h1>KOSMOS2 Demo</h1>
 </header>
 
-<!-- ========================= -->
-<!-- YouTube Demo Section -->
-<!-- ========================= -->
 <section class="section">
   <h2>YouTube Demo</h2>
   <iframe
-    src="https://www.youtube.com/embed/2WfGMvcNGGk?autoplay=1&mute=1&playsinline=1"
+    src="https://www.youtube.com/embed/2WfGMvcNGGk"
     allowfullscreen>
   </iframe>
 </section>
 
-<!-- ========================= -->
-<!-- Audio + Waveform Section -->
-<!-- ========================= -->
 <section class="section">
   <h2>Audio Demo</h2>
 
@@ -102,12 +115,10 @@
     <button id="pause">Pause</button>
   </div>
 
-  <!-- 音源ファイル（mp3/wav） -->
   <audio id="audio" src="demo.mp3"></audio>
 </section>
 
 <script>
-  // Wavesurfer 初期化
   const audio = document.getElementById("audio");
 
   const wavesurfer = WaveSurfer.create({
@@ -123,7 +134,6 @@
     media: audio
   });
 
-  // ボタン操作
   document.getElementById("play").onclick = () => wavesurfer.play();
   document.getElementById("pause").onclick = () => wavesurfer.pause();
 </script>
