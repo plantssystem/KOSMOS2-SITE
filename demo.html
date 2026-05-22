@@ -16,11 +16,11 @@
     overflow-x: hidden;
   }
 
-  /* 左上の横長プレビュー動画 */
+  /* 右上の横長プレビュー動画 */
   #preview-video {
     position: fixed;
     top: 20px;
-    left: 20px;
+    right: 20px;   /* ← 左から右へ変更 */
     width: 240px;
     height: 135px; /* 16:9 */
     object-fit: cover;
@@ -29,7 +29,7 @@
     z-index: 5;
   }
 
-  /* メインコンテンツ（上に詰める） */
+  /* メインコンテンツ（さらに上に詰める） */
   .overlay {
     position: relative;
     z-index: 10;
@@ -37,7 +37,7 @@
     width: 100%;
     max-width: 900px;
     margin: 0 auto;
-    padding-top: 140px; /* ← 200px → 140px に変更して上へ */
+    padding-top: 60px; /* ← 140px → 60px にして大幅に上へ */
   }
 
   /* Shorts を高さ600pxに収める */
@@ -45,7 +45,7 @@
     width: 338px;
     height: 600px;
     margin: 0 auto;
-    margin-top: -10px; /* ← 少し上に詰める */
+    margin-top: -20px; /* ← さらに上に詰める */
     border-radius: 12px;
     overflow: hidden;
   }
@@ -56,12 +56,12 @@
     border: none;
   }
 
-  /* 波形（上に詰める） */
+  /* 波形（YouTube にくっつける） */
   #waveform {
     width: 90%;
     max-width: 600px;
     height: 128px;
-    margin: 20px auto 10px auto; /* ← 上の余白を30px→20pxに */
+    margin: 10px auto 10px auto; /* ← 上の余白を20px→10pxに */
     background: rgba(255,255,255,0.1);
     border-radius: 12px;
   }
@@ -90,7 +90,7 @@
 </head>
 <body>
 
-<!-- 左上の横長プレビュー動画 -->
+<!-- 右上の横長プレビュー動画 -->
 <video autoplay loop muted playsinline id="preview-video">
   <source src="bgmv4.mp4" type="video/mp4">
 </video>
@@ -105,7 +105,7 @@
     </iframe>
   </div>
 
-  <!-- 波形 -->
+  <!-- 波形（YouTube にくっつく） -->
   <div id="waveform"></div>
 
   <div class="audio-controls">
