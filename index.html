@@ -42,6 +42,19 @@
     max-width: 900px;
     margin: 0 auto;
   }
+  
+  .credit {
+  position: fixed;
+  bottom: 20px;
+  width: 100%;
+  text-align: center;
+  color: rgba(255, 255, 255, 0.75);
+  font-size: 1rem;
+  font-weight: 300;
+  letter-spacing: 1px;
+  z-index: 30;
+  pointer-events: none; /* 背景クリックを邪魔しない */
+  }
 </style>
 </head>
 
@@ -71,6 +84,12 @@
       Melody / Bass / Chord / Sequence の4つのパートが  
       ゆっくりと、絶え間なく、音の構造を変化させていく。
     </p>
+  </div>
+
+  <!-- クレジット -->
+  <div class="credit">
+    KOSMOS2 Generative Sound Engine<br>
+    Powered by ISGK Instruments PRA32-U2/M
   </div>
 
 </body>
