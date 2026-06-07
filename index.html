@@ -84,43 +84,31 @@
     100% { opacity: 1; transform: translateY(0); }
   }
 
-#video-manual-btn {
-  position: fixed !important;
-  top: 20px;
-  left: 20px;
-  z-index: 999999 !important;
-  padding: 12px 20px;
-  background: rgba(0,0,0,0.75);
-  color: #fff;
-  border-radius: 8px;
-  font-size: 18px;
-  text-decoration: none;
-  pointer-events: auto !important;
-}
-
 #github-btn {
-  position: fixed !important;
+  position: fixed;
   top: 20px;
   left: 20px;
-  z-index: 999999 !important;
+  z-index: 999999;
   padding: 12px 20px;
   background: rgba(0,0,0,0.75);
   color: #fff;
   border-radius: 8px;
   font-size: 18px;
   text-decoration: none;
-  pointer-events: auto !important;
-  margin-bottom: 10px; /* ← VideoManual との間隔 */
 }
 
-.video-manual-btn {
-  top: 70px; /* ← GitHub ボタンの下に配置 */
-  padding: 0.75em 1.2em;   /* ボタンの外形を大きくする */
-  font-size: 1.1em;        /* 文字サイズを少しアップ */
-  line-height: 1.2;        /* 縦のバランス調整 */
-  border-radius: 0.6em;    /* 角丸を少し強める（任意） */
+#video-manual-btn {
+  position: fixed;
+  top: 70px; /* GitHub ボタンの下 */
+  left: 20px;
+  z-index: 999999;
+  padding: 12px 20px;
+  background: rgba(0,0,0,0.75);
+  color: #fff;
+  border-radius: 8px;
+  font-size: 18px;
+  text-decoration: none;
 }
-
   
 </style>
 </head>
