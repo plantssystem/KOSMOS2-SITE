@@ -1,0 +1,17 @@
+# GitHub Pages で Jekyll を無効化（静的サイトの場合は必須）
+markdown: kramdown
+theme: null
+
+# サイトマップ生成（Google インデックスに必須）
+plugins:
+  - jekyll-sitemap
+
+# サイト情報（SEO に重要）
+title: "KOSMOS2"
+description: "Generative Music Engine by plantssystem"
+url: "https://plantssystem.github.io"
+baseurl: "/KOSMOS2-SITE"
+
+# サイトマップの出力先
+sitemap:
+  filename: "sitemap.xml"

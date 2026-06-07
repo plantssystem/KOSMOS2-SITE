@@ -3,15 +3,17 @@
 <head>
 <meta charset="UTF-8">
 
+<title>plantssystem KOSMOS2 - Generative Instrument</title>
+<meta name="description" content="plantssystem KOSMOS2: 4-voice generative instrument / sequencer by plantssystem. Specs, demos, downloads.">
+
 <meta property="og:title" content="KOSMOS2 – Generative Sound System">
 <meta property="og:description" content="自律的に進化し続けるミニマルなジェネレーティブ音響エンジン。Melody / Bass / Chord / Sequence の4つのパートがゆっくりと音の構造を変化させていく。">
 <meta property="og:url" content="https://plantssystem.github.io/KOSMOS2-SITE/">
 <meta property="og:type" content="website">
-<meta property="og:image" content="https://plantssystem.github.io/KOSMOS2-SITE/assets/kosmos2_ogp.jpg?v=3">
-<meta name="twitter:image" content="https://plantssystem.github.io/KOSMOS2-SITE/assets/kosmos2_ogp.jpg?v=3">
+<meta property="og:image" content="https://plantssystem.github.io/KOSMOS2-SITE/assets/kosmos2_ogp.png?v=3">
+<meta name="twitter:image" content="https://plantssystem.github.io/KOSMOS2-SITE/assets/kosmos2_ogp.png?v=3">
 <meta name="twitter:card" content="summary_large_image">
 
-<title>KOSMOS2-SITE</title>
 <style>
   html, body {
     margin: 0;
@@ -61,6 +63,53 @@
     0% { opacity: 0; transform: translateY(10px); }
     100% { opacity: 1; transform: translateY(0); }
   }
+
+  .hint {
+    position: fixed;
+    bottom: 140px; /* ← 90px → 140px に変更して上へ移動 */
+    width: 100%;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 1.6rem;
+    font-weight: 300;
+    letter-spacing: 1.5px;
+    z-index: 25;
+    opacity: 0;
+    animation: hintFade 3s ease-out 2s forwards;
+    pointer-events: none;
+  }
+
+  @keyframes hintFade {
+    0% { opacity: 0; transform: translateY(5px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+#github-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 999999;
+  padding: 12px 20px;
+  background: rgba(0,0,0,0.75);
+  color: #fff;
+  border-radius: 8px;
+  font-size: 18px;
+  text-decoration: none;
+}
+
+#video-manual-btn {
+  position: fixed;
+  top: 90px; /* GitHub ボタンの下 */
+  left: 20px;
+  z-index: 999999;
+  padding: 12px 20px;
+  background: rgba(0,0,0,0.75);
+  color: #fff;
+  border-radius: 8px;
+  font-size: 18px;
+  text-decoration: none;
+}
+  
 </style>
 </head>
 
@@ -71,11 +120,6 @@
     <source src="https://plantssystem.github.io/KOSMOS2-SITE/bgmv4.mp4" type="video/mp4">
   </video>
 
-  <!-- 画面全体クリックで GitHub へ -->
-  <a href="https://github.com/plantssystem/KOSMOS2"
-     style="position:fixed; top:0; left:0; width:100%; height:100%; z-index:20;">
-  </a>
-
   <!-- オーバーレイ（日本語版） -->
   <div class="overlay">
     <h1 style="font-size:4rem; font-weight:900; margin-bottom:20px; letter-spacing:2px;">
@@ -83,14 +127,25 @@
     </h1>
 
     <p style="font-size:1.8rem; font-weight:300; line-height:1.7; max-width:900px; margin:0 auto 20px;">
-      自律的に進化し続ける、ミニマルなジェネレーティブ音響エンジン。
+      自律的に進化し続ける、<br>ミニマルなジェネレーティブ音響エンジン。
     </p>
 
     <p style="font-size:1.6rem; font-weight:300; line-height:1.7; max-width:900px; margin:0 auto;">
-      Melody / Bass / Chord / Sequence の4つのパートが  
-      ゆっくりと、絶え間なく、音の構造を変化させていく。
+      独立した4つのシンセパートがゆっくりと、絶え間なく、<br>音の構造を変化させていく。
     </p>
   </div>
+
+  <a id="github-btn"
+     href="https://github.com/plantssystem/KOSMOS2"
+     target="_blank">
+    ★ GitHub
+  </a>
+
+  <a id="video-manual-btn" 
+     href="https://e2b.x-pilot.ai/share/Znh1kNRKNCCc0btRPs0J8/preview" 
+     target="_blank">
+    ▶ Video Manual
+  </a>
 
   <div class="credit">
     KOSMOS2 Generative Sound Engine<br>
