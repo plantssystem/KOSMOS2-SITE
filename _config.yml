@@ -8,7 +8,7 @@ plugins:
 
 # サイト情報（SEO に重要）
 title: "KOSMOS2"
-description: "Generative Music Engine by plantssystem"
+description: "Generative Sound Engine by plantssystem"
 url: "https://plantssystem.github.io"
 baseurl: "/KOSMOS2-SITE"
 
