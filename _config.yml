@@ -7,7 +7,7 @@ plugins:
   - jekyll-sitemap
 
 # サイト情報（SEO に重要）
-title: "KOSMOS2"
+title: "plantssystem"
 description: "Generative Sound Engine by plantssystem"
 url: "https://plantssystem.github.io"
 baseurl: "/KOSMOS2-SITE"
