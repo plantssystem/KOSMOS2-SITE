@@ -109,6 +109,19 @@
   font-size: 18px;
   text-decoration: none;
 }
+
+#playlist-btn {
+  position: fixed;
+  top: 160px; /* Video Manual の下に配置（90px → 160px） */
+  left: 20px;
+  z-index: 999999;
+  padding: 12px 20px;
+  background: rgba(0,0,0,0.75);
+  color: #fff;
+  border-radius: 8px;
+  font-size: 18px;
+  text-decoration: none;
+}
   
 </style>
 </head>
@@ -145,6 +158,12 @@
      href="https://e2b.x-pilot.ai/share/Znh1kNRKNCCc0btRPs0J8/preview" 
      target="_blank">
     ▶ Video Manual
+  </a>
+
+  <a id="playlist-btn" 
+     href="https://www.youtube.com/playlist?list=PL_d4rx3iZh9w3rmW9Nm0cPF2PrU4V25_Q" 
+     target="_blank">
+    ▶ Playlist
   </a>
 
   <div class="credit">
