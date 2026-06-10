@@ -135,12 +135,19 @@
   font-size: 18px;
   text-decoration: none;
 }
-  
+
+.visually-hidden {
+  position: absolute;
+  left: -9999px;
+}
+ 
 </style>
 </head>
 
 <body>
 
+  <h1 class="visually-hidden">plantssystem KOSMOS2</h1>
+  
   <!-- 背景動画 -->
   <video autoplay loop muted playsinline id="bg-video">
     <source src="https://plantssystem.github.io/KOSMOS2-SITE/bgmv4.mp4" type="video/mp4">
@@ -148,9 +155,9 @@
 
   <!-- オーバーレイ（日本語版） -->
   <div class="overlay">
-    <h1 style="font-size:4rem; font-weight:900; margin-bottom:20px; letter-spacing:2px;">
+    <h2 style="font-size:4rem; font-weight:900; margin-bottom:20px; letter-spacing:2px;">
       KOSMOS2
-    </h1>
+    </h2>
 
     <p style="font-size:1.8rem; font-weight:300; line-height:1.7; max-width:900px; margin:0 auto 20px;">
       自律的に進化し続ける、<br>ミニマルなジェネレーティブ音響エンジン。
