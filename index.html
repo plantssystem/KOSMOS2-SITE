@@ -6,8 +6,8 @@
 <title>plantssystem KOSMOS2 - Generative Instrument</title>
 <meta name="description" content="plantssystem KOSMOS2: 4-voice generative instrument / sequencer by plantssystem. Specs, demos, downloads.">
 
-<meta property="og:title" content="KOSMOS2 – Generative Sound System">
-<meta property="og:description" content="自律的に進化し続けるミニマルなジェネレーティブ音響エンジン。Melody / Bass / Chord / Sequence の4つのパートがゆっくりと音の構造を変化させていく。">
+<meta property="og:title" content="KOSMOS2 – Generative Sound Engine">
+<meta property="og:description" content="自律的に進化し続けるミニマルなジェネレーティブ音響エンジン。独立した4つのシンセパートがゆっくりと音の構造を変化させていく。">
 <meta property="og:url" content="https://plantssystem.github.io/KOSMOS2-SITE/">
 <meta property="og:type" content="website">
 <meta property="og:image" content="https://plantssystem.github.io/KOSMOS2-SITE/assets/kosmos2_ogp.png?v=3">
@@ -109,6 +109,32 @@
   font-size: 18px;
   text-decoration: none;
 }
+
+#playlist-btn {
+  position: fixed;
+  top: 160px; /* Video Manual の下に配置（90px → 160px） */
+  left: 20px;
+  z-index: 999999;
+  padding: 12px 20px;
+  background: rgba(0,0,0,0.75);
+  color: #fff;
+  border-radius: 8px;
+  font-size: 18px;
+  text-decoration: none;
+}
+
+#twitter-btn {
+  position: fixed;
+  top: 230px; /* Playlist の下に配置（160px → 230px） */
+  left: 20px;
+  z-index: 999999;
+  padding: 12px 20px;
+  background: rgba(0,0,0,0.75);
+  color: #fff;
+  border-radius: 8px;
+  font-size: 18px;
+  text-decoration: none;
+}
   
 </style>
 </head>
@@ -144,9 +170,22 @@
   <a id="video-manual-btn" 
      href="https://e2b.x-pilot.ai/share/Znh1kNRKNCCc0btRPs0J8/preview" 
      target="_blank">
-    ▶ Video Manual
+    ■ Video Manual
   </a>
 
+  <a id="playlist-btn" 
+     href="https://www.youtube.com/playlist?list=PL_d4rx3iZh9w3rmW9Nm0cPF2PrU4V25_Q" 
+     target="_blank">
+    ▶ YouTube
+  </a>
+
+  <a id="twitter-btn" 
+     href="https://x.com/plantssystem89" 
+     target="_blank">
+    ✦ Twitter
+  </a>
+
+  
   <div class="credit">
     KOSMOS2 Generative Sound Engine<br>
     Powered by ISGK Instruments PRA32-U2/M
