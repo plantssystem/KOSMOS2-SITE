@@ -1,223 +1,521 @@
 <!DOCTYPE html>
 <html lang="ja">
 <head>
-<meta charset="UTF-8">
-
-<title>plantssystem KOSMOS2 - Generative Instrument</title>
-<meta name="description" content="plantssystem KOSMOS2: 4-voice generative instrument / sequencer by plantssystem. Specs, demos, downloads.">
-
-<meta property="og:title" content="KOSMOS2 – Generative Sound Engine">
-<meta property="og:description" content="自律的に進化し続けるミニマルなジェネレーティブ音響エンジン。独立した4つのシンセパートがゆっくりと音の構造を変化させていく。">
-<meta property="og:url" content="https://plantssystem.github.io/KOSMOS2-SITE/">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PlantsSystem — Generative Instruments by osamu</title>
+<meta name="description" content="PlantsSystem / osamu が作るジェネレーティブ楽器。ブラウザ、PS Vita、Linuxで動く自作シンセ&シーケンサーを紹介します。">
+<meta property="og:title" content="PlantsSystem — Generative Instruments">
+<meta property="og:description" content="ブラウザ・PS Vita・Linuxで動く、自作のジェネレーティブ楽器コレクション。">
 <meta property="og:type" content="website">
-<meta property="og:image" content="https://plantssystem.github.io/KOSMOS2-SITE/assets/kosmos2_ogp.png?v=3">
-<meta name="twitter:image" content="https://plantssystem.github.io/KOSMOS2-SITE/assets/kosmos2_ogp.png?v=3">
+<meta property="og:url" content="https://plantssystem.github.io/KOSMOS2-SITE/">
 <meta name="twitter:card" content="summary_large_image">
-
+<!-- TODO: OGP画像を用意したら下の行のコメントを外してください -->
+<!-- <meta property="og:image" content="https://plantssystem.github.io/KOSMOS2-SITE/ogp.png"> -->
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230b0f0d'/%3E%3Cpath d='M16 26V15M16 15c0-5 3-8 8-8 0 5-3 8-8 8zM16 18c0-4-2-6-7-6 0 4 2 6 7 6z' fill='none' stroke='%237dffb0' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
 <style>
-  html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    background: #333;
-  }
-
-  #bg-video {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 0;
-  }
-
-  .overlay {
-    position: relative;
-    z-index: 10;
-    color: white;
-    text-align: center;
-    padding-top: 50px;
-    width: 90%;
-    max-width: 900px;
-    margin: 0 auto;
-  }
-  
-  .credit {
-    position: fixed;
-    bottom: 20px;
-    width: 100%;
-    text-align: center;
-    color: rgba(255, 255, 255, 0.85);
-    font-size: 2rem; /* ← 2倍に拡大 */
-    font-weight: 300;
-    letter-spacing: 1.5px;
-    z-index: 30;
-    pointer-events: none;
-    opacity: 0;
-    animation: creditFade 3s ease-out 1s forwards; /* ← フェードイン */
-  }
-
-  @keyframes creditFade {
-    0% { opacity: 0; transform: translateY(10px); }
-    100% { opacity: 1; transform: translateY(0); }
-  }
-
-  .hint {
-    position: fixed;
-    bottom: 140px; /* ← 90px → 140px に変更して上へ移動 */
-    width: 100%;
-    text-align: center;
-    color: rgba(255, 255, 255, 0.75);
-    font-size: 1.6rem;
-    font-weight: 300;
-    letter-spacing: 1.5px;
-    z-index: 25;
-    opacity: 0;
-    animation: hintFade 3s ease-out 2s forwards;
-    pointer-events: none;
-  }
-
-  @keyframes hintFade {
-    0% { opacity: 0; transform: translateY(5px); }
-    100% { opacity: 1; transform: translateY(0); }
-  }
-
-#github-btn {
-  position: fixed;
-  top: 20px;
-  left: 20px;
-  z-index: 999999;
-  padding: 12px 20px;
-  background: rgba(0,0,0,0.75);
-  color: #fff;
-  border-radius: 8px;
-  font-size: 18px;
-  text-decoration: none;
+:root{
+  --bg:#080b0a; --bg2:#0e1311; --card:#111815; --line:#1f2b25;
+  --text:#e7efe9; --muted:#8fa196; --accent:#7dffb0; --accent2:#5ad1ff;
+  --radius:18px;
 }
-
-#video-manual-btn {
-  position: fixed;
-  top: 90px; /* GitHub ボタンの下 */
-  left: 20px;
-  z-index: 999999;
-  padding: 12px 20px;
-  background: rgba(0,0,0,0.75);
-  color: #fff;
-  border-radius: 8px;
-  font-size: 18px;
-  text-decoration: none;
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{
+  background:var(--bg); color:var(--text);
+  font-family:"Inter","Hiragino Sans","Noto Sans JP","Yu Gothic",system-ui,sans-serif;
+  line-height:1.75; -webkit-font-smoothing:antialiased;
 }
+a{color:inherit;text-decoration:none}
+.mono{font-family:"JetBrains Mono","SF Mono",ui-monospace,Menlo,Consolas,monospace}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
 
-#playlist-btn {
-  position: fixed;
-  top: 160px; /* Video Manual の下に配置（90px → 160px） */
-  left: 20px;
-  z-index: 999999;
-  padding: 12px 20px;
-  background: rgba(0,0,0,0.75);
-  color: #fff;
-  border-radius: 8px;
-  font-size: 18px;
-  text-decoration: none;
-}
+/* nav */
+nav{position:fixed;inset:0 0 auto 0;z-index:50;backdrop-filter:blur(14px);background:rgba(8,11,10,.65);border-bottom:1px solid rgba(255,255,255,.05)}
+nav .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:700;letter-spacing:.04em}
+.brand svg{width:24px;height:24px}
+.links{display:flex;gap:22px;font-size:.88rem;color:var(--muted)}
+.links a:hover{color:var(--accent)}
+@media(max-width:640px){.links a:not(:last-child){display:none}}
 
-#twitter-btn {
-  position: fixed;
-  top: 230px; /* Playlist の下に配置（160px → 230px） */
-  left: 20px;
-  z-index: 999999;
-  padding: 12px 20px;
-  background: rgba(0,0,0,0.75);
-  color: #fff;
-  border-radius: 8px;
-  font-size: 18px;
-  text-decoration: none;
-}
+/* hero */
+.hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;padding-top:60px}
+#bg{position:absolute;inset:0;width:100%;height:100%}
+.hero::after{content:"";position:absolute;inset:0;background:radial-gradient(ellipse at 50% 40%,transparent 0%,var(--bg) 78%);pointer-events:none}
+.hero .wrap{position:relative;z-index:2}
+.eyebrow{color:var(--accent);font-size:.8rem;letter-spacing:.28em;text-transform:uppercase}
+h1{font-size:clamp(2.6rem,8vw,6rem);line-height:1.05;margin:18px 0 22px;font-weight:800;letter-spacing:-.03em}
+h1 span{background:linear-gradient(100deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{max-width:620px;color:var(--muted);font-size:1.08rem}
+.cta{display:flex;gap:12px;margin-top:34px;flex-wrap:wrap}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:999px;font-weight:600;font-size:.92rem;border:1px solid var(--line);transition:.25s}
+.btn.primary{background:var(--accent);color:#04120a;border-color:var(--accent)}
+.btn.primary:hover{box-shadow:0 0 32px rgba(125,255,176,.45);transform:translateY(-2px)}
+.btn.ghost:hover{border-color:var(--accent);color:var(--accent)}
+.stats{display:flex;gap:40px;margin-top:56px;flex-wrap:wrap}
+.stats b{display:block;font-size:2rem;font-weight:800}
+.stats small{color:var(--muted);font-size:.78rem;letter-spacing:.12em}
 
-#yumi-btn {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 999999;
-  padding: 12px 20px;
-  background: rgba(0,0,0,0.75);
-  color: #fff;
-  border-radius: 8px;
-  font-size: 18px;
-  text-decoration: none;
-}
+/* sections */
+section.block{padding:110px 0 30px}
+.sec-head{display:flex;align-items:flex-end;justify-content:space-between;gap:20px;margin-bottom:36px;flex-wrap:wrap}
+.sec-head h2{font-size:clamp(1.8rem,4vw,2.6rem);letter-spacing:-.02em;line-height:1.2}
+.sec-head p{color:var(--muted);max-width:480px;font-size:.95rem}
+.tag{display:inline-block;font-size:.72rem;letter-spacing:.2em;color:var(--accent);margin-bottom:8px}
 
-.visually-hidden {
-  position: absolute;
-  left: -9999px;
+.grid{display:grid;gap:22px;grid-template-columns:repeat(auto-fill,minmax(330px,1fr))}
+.card{
+  position:relative;background:var(--card);border:1px solid var(--line);border-radius:var(--radius);
+  overflow:hidden;display:flex;flex-direction:column;transition:.35s;
 }
- 
+.card:hover{transform:translateY(-6px);border-color:color-mix(in srgb,var(--c) 55%,var(--line));box-shadow:0 18px 50px -18px var(--c)}
+.art{height:150px;position:relative;overflow:hidden;background:var(--bg2);border-bottom:1px solid var(--line)}
+.art::before{content:"";position:absolute;inset:0;background:radial-gradient(circle at 20% 30%,color-mix(in srgb,var(--c) 40%,transparent),transparent 60%),radial-gradient(circle at 85% 80%,color-mix(in srgb,var(--c2,var(--c)) 30%,transparent),transparent 55%)}
+.art svg{position:absolute;inset:0;width:100%;height:100%}
+.art .badge{position:absolute;top:14px;left:14px;z-index:2}
+.body{padding:22px 22px 24px;display:flex;flex-direction:column;gap:10px;flex:1}
+.body h3{font-size:1.5rem;letter-spacing:.02em;line-height:1.2}
+.sub{color:var(--c);font-size:.8rem;letter-spacing:.06em}
+.body p{color:var(--muted);font-size:.92rem}
+.chips{display:flex;flex-wrap:wrap;gap:6px;margin-top:2px}
+.chip{font-size:.72rem;padding:3px 10px;border:1px solid var(--line);border-radius:999px;color:var(--muted)}
+.badge{font-size:.68rem;letter-spacing:.14em;padding:4px 10px;border-radius:999px;background:rgba(0,0,0,.55);border:1px solid color-mix(in srgb,var(--c) 50%,transparent);color:var(--c);backdrop-filter:blur(6px)}
+.foot{margin-top:auto;padding-top:14px;display:flex;gap:10px;flex-wrap:wrap}
+.foot a{font-size:.85rem;font-weight:600;padding:8px 16px;border-radius:999px;border:1px solid var(--line);transition:.2s}
+.foot a.main{background:var(--c);color:#04120a;border-color:var(--c)}
+.foot a:hover{filter:brightness(1.15)}
+.foot a:not(.main):hover{border-color:var(--c);color:var(--c)}
+
+/* how to */
+.note{margin-top:26px;padding:20px 24px;border:1px dashed var(--line);border-radius:var(--radius);color:var(--muted);font-size:.9rem;background:rgba(255,255,255,.015)}
+.note b{color:var(--text)}
+.note code{background:#0b1210;padding:2px 7px;border-radius:6px;color:var(--accent);font-size:.85em}
+
+/* about */
+.about{display:grid;grid-template-columns:1.1fr .9fr;gap:40px;align-items:center}
+@media(max-width:800px){.about{grid-template-columns:1fr}}
+.about p{color:var(--muted);margin-bottom:14px}
+.kos{border:1px solid var(--line);border-radius:var(--radius);padding:26px;background:var(--card)}
+.kos h4{font-size:.8rem;letter-spacing:.2em;color:var(--accent);margin-bottom:14px}
+.kos li{list-style:none;padding:9px 0;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;color:var(--muted);font-size:.9rem}
+.kos li:last-child{border:0}
+.kos li b{color:var(--text);font-weight:600}
+
+footer{margin-top:110px;border-top:1px solid var(--line);padding:42px 0 60px;color:var(--muted);font-size:.85rem}
+footer .wrap{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap}
+footer a:hover{color:var(--accent)}
+
+.reveal{opacity:0;transform:translateY(24px);transition:opacity .8s,transform .8s}
+.reveal.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
 </style>
 </head>
-
 <body>
 
-  <h1 class="visually-hidden">plantssystem KOSMOS2</h1>
-  
-  <!-- 背景動画 -->
-  <video autoplay loop muted playsinline id="bg-video">
-    <source src="https://plantssystem.github.io/KOSMOS2-SITE/bgmv4.mp4" type="video/mp4">
-  </video>
+<nav>
+  <div class="wrap">
+    <a class="brand" href="#top">
+      <svg viewBox="0 0 32 32" fill="none" stroke="#7dffb0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 27V15M16 15c0-5 3-8 8-8 0 5-3 8-8 8zM16 18c0-4-2-6-7-6 0 4 2 6 7 6z"/></svg>
+      PlantsSystem
+    </a>
+    <div class="links">
+      <a href="#browser">Browser</a>
+      <a href="#vita">PS Vita</a>
+      <a href="#linux">Linux</a>
+      <a href="#about">About</a>
+    </div>
+  </div>
+</nav>
 
-  <!-- オーバーレイ（日本語版） -->
-  <div class="overlay">
-    <h2 style="font-size:4rem; font-weight:900; margin-bottom:20px; letter-spacing:2px;">
-      KOSMOS2
-    </h2>
+<header class="hero" id="top">
+  <canvas id="bg"></canvas>
+  <div class="wrap">
+    <div class="eyebrow mono">generative instruments · by osamu</div>
+    <h1>Generative<br><span>Sound Works</span></h1>
+    <p class="lead">PlantsSystem は、osamu が作るジェネレーティブな楽器と音響作品のコレクションです。ブラウザ・PS Vita・Linux(アプリ/VST)で動く、ジェネレーティブなシンセとシーケンサーを公開しています。インストール不要のものは、今すぐここから鳴らせます。</p>
+    <div class="cta">
+      <a class="btn primary" href="#browser">ブラウザで試す →</a>
+      <a class="btn ghost" href="#vita">PS Vita版を見る</a>
+      <a class="btn ghost" href="#linux">Linux版</a>
+    </div>
+    <div class="stats mono">
+      <div><b>5</b><small>BROWSER APPS</small></div>
+      <div><b>3</b><small>PS VITA APPS</small></div>
+      <div><b>3</b><small>LINUX APP / VST</small></div>
+    </div>
+  </div>
+</header>
 
-    <p style="font-size:1.8rem; font-weight:300; line-height:1.7; max-width:900px; margin:0 auto 20px;">
-      自律的に進化し続ける、<br>ミニマルなジェネレーティブ音響エンジン。
-    </p>
+<main class="wrap">
 
-    <p style="font-size:1.6rem; font-weight:300; line-height:1.7; max-width:900px; margin:0 auto;">
-      独立した4つのシンセパートがゆっくりと、絶え間なく、<br>音の構造を変化させていく。
-    </p>
+<!-- ================= BROWSER ================= -->
+<section class="block" id="browser">
+  <div class="sec-head reveal">
+    <div>
+      <span class="tag mono">01 — BROWSER</span>
+      <h2>ブラウザアプリ</h2>
+    </div>
+    <p>Web Audio で動くので、ダウンロード不要。リンクを開いてクリックするだけで音が出ます(スマホ・PC対応、ヘッドホン推奨)。</p>
   </div>
 
-  <a id="github-btn"
-     href="https://github.com/plantssystem/KOSMOS2"
-     target="_blank">
-    ★ GitHub
-  </a>
+  <div class="grid">
 
-  <a id="video-manual-btn" 
-     href="https://e2b.x-pilot.ai/share/Znh1kNRKNCCc0btRPs0J8/preview" 
-     target="_blank">
-    ■ Video Manual
-  </a>
+    <!-- PROPHETIQUE -->
+    <article class="card reveal" style="--c:#ffb86b;--c2:#ff6b8b">
+      <div class="art">
+        <span class="badge mono">BROWSER · VITA</span>
+        <svg viewBox="0 0 330 150" preserveAspectRatio="none" fill="none" stroke="#ffb86b" stroke-opacity=".7">
+          <path d="M0 100 Q40 40 80 90 T160 80 T240 60 T330 90"/>
+          <path d="M0 115 Q50 70 90 105 T170 95 T250 85 T330 110" stroke-opacity=".35"/>
+          <g fill="#ffb86b" stroke="none"><circle cx="60" cy="62" r="3"/><circle cx="120" cy="88" r="3"/><circle cx="190" cy="74" r="3"/><circle cx="270" cy="70" r="3"/></g>
+        </svg>
+      </div>
+      <div class="body">
+        <div class="sub mono">POLY SAMPLER × GENERATIVE MELODY</div>
+        <h3>PROPHETIQUE</h3>
+        <p>Prophet-5 の音色から抜き出した1音を、5音ポリフォニックのサンプラーとして鳴らす、自動演奏シンセ。自作曲「MindCtrl2」を分析し、その旋律の癖を真似ながらリアルタイムに新しいフレーズを生み出し続けます。</p>
+        <div class="chips">
+          <span class="chip">4トラック</span><span class="chip">キートランスポーズ</span><span class="chip">MUTATE</span><span class="chip">Reverb / LPF</span>
+        </div>
+        <div class="foot">
+          <a class="main" href="https://plantssystem.github.io/PROPHETIQUE/" target="_blank" rel="noopener">開く ↗</a>
+        </div>
+      </div>
+    </article>
 
-  <a id="playlist-btn" 
-     href="https://www.youtube.com/playlist?list=PL_d4rx3iZh9w3rmW9Nm0cPF2PrU4V25_Q" 
-     target="_blank">
-    ▶ YouTube
-  </a>
+    <!-- Register -->
+    <article class="card reveal" style="--c:#e7efe9;--c2:#5ad1ff">
+      <div class="art">
+        <span class="badge mono">BROWSER · VITA</span>
+        <svg viewBox="0 0 330 150" preserveAspectRatio="none" stroke="#e7efe9" stroke-opacity=".75">
+          <g stroke-width="2">
+            <line x1="30" y1="30" x2="30" y2="120"/><line x1="38" y1="30" x2="38" y2="120"/><line x1="52" y1="30" x2="52" y2="120"/>
+            <line x1="64" y1="30" x2="64" y2="120"/><line x1="70" y1="30" x2="70" y2="120"/><line x1="90" y1="30" x2="90" y2="120"/>
+            <line x1="104" y1="30" x2="104" y2="120"/><line x1="112" y1="30" x2="112" y2="120"/><line x1="130" y1="30" x2="130" y2="120"/>
+            <line x1="140" y1="30" x2="140" y2="120"/><line x1="156" y1="30" x2="156" y2="120"/>
+          </g>
+          <g fill="none" stroke-opacity=".5"><path d="M220 100l40-50 40 30-40 40zM220 100l0-30 40-20M260 120v-30M300 80v-30"/></g>
+        </svg>
+      </div>
+      <div class="body">
+        <div class="sub mono">SINE · NOISE · LFSR</div>
+        <h3>Register</h3>
+        <p>サイン波とノイズだけで組み上げた、池田亮司へのオマージュ。LFSR(線形帰還シフトレジスタ)が生む2進パターンをもとに、バーコード、3Dワイヤフレーム、2進コードの映像と音が同期して動きます。余白の多い、静かなデータの音楽。</p>
+        <div class="chips">
+          <span class="chip">LFSR</span><span class="chip">dens / sub / verb</span><span class="chip">白地に黒のビジュアル</span>
+        </div>
+        <div class="foot">
+          <a class="main" href="https://plantssystem.github.io/REGISTER/" target="_blank" rel="noopener">開く ↗</a>
+        </div>
+      </div>
+    </article>
 
-  <a id="twitter-btn" 
-     href="https://x.com/plantssystem89" 
-     target="_blank">
-    ✦ Twitter
-  </a>
+    <!-- RAINTREEFREQ+ -->
+    <article class="card reveal" style="--c:#5ad1ff;--c2:#7dffb0">
+      <div class="art">
+        <span class="badge mono">BROWSER</span>
+        <svg viewBox="0 0 330 150" preserveAspectRatio="none" stroke="none" fill="#5ad1ff">
+          <g fill-opacity=".8">
+            <rect x="40" y="10" width="6" height="26" rx="3"/><rect x="92" y="34" width="6" height="40" rx="3"/>
+            <rect x="140" y="6" width="6" height="22" rx="3"/><rect x="190" y="52" width="6" height="52" rx="3"/>
+            <rect x="238" y="22" width="6" height="34" rx="3"/><rect x="286" y="70" width="6" height="58" rx="3"/>
+            <rect x="66" y="84" width="6" height="46" rx="3"/><rect x="164" y="98" width="6" height="40" rx="3"/>
+            <rect x="262" y="104" width="6" height="30" rx="3"/>
+          </g>
+        </svg>
+      </div>
+      <div class="body">
+        <div class="sub mono">GENERATIVE PIANO ROLL</div>
+        <h3>RAINTREEFREQ+</h3>
+        <p>自作曲「RainTreeFreq+」をもとにしたジェネレーティブ・アプリ。雨粒のように上から下へ流れるピアノロールを眺めながら、原曲の面影を残したまま少しずつ変わっていく演奏を聴けます。</p>
+        <div class="chips">
+          <span class="chip">流れるピアノロール</span><span class="chip">MUTATE</span><span class="chip">原曲 RTF01</span>
+        </div>
+        <div class="foot">
+          <a class="main" href="https://plantssystem.github.io/RAINTREEFREQ/" target="_blank" rel="noopener">開く ↗</a>
+        </div>
+      </div>
+    </article>
 
-  <!--
-  <a id="yumi-btn" 
-     href="https://github.com/plantssystem/KOSMOS2/releases/download/v2.1.1/KOSMOS2-v2.1.1.uf2"
-     target="_blank">
-    ❤️ For Yumi
-  </a>
-  -->
-  
-  <div class="credit">
-    KOSMOS2 Generative Sound Engine<br>
-    Powered by ISGK Instruments PRA32-U2/M
+    <!-- KORPER -->
+    <article class="card reveal" style="--c:#c792ff;--c2:#ff6b8b">
+      <div class="art">
+        <span class="badge mono">BROWSER</span>
+        <svg viewBox="0 0 330 150" preserveAspectRatio="none" fill="none" stroke="#c792ff" stroke-opacity=".7">
+          <circle cx="165" cy="75" r="22"/><circle cx="165" cy="75" r="44" stroke-opacity=".5"/><circle cx="165" cy="75" r="66" stroke-opacity=".3"/><circle cx="165" cy="75" r="88" stroke-opacity=".15"/>
+        </svg>
+      </div>
+      <div class="body">
+        <div class="sub mono">EBM INSTRUMENT</div>
+        <h3>KORPER</h3>
+        <!-- TODO: KORPERの説明文をさらに詳しくする場合は差し替えてください -->
+        <p>ELECTRONIC BODY MUSIC(EBM)に特化した楽器。Web Audio で動くブラウザ版で、インストール不要。開いてすぐに音を出して遊べます。</p>
+        <div class="chips">
+          <span class="chip">EBM</span><span class="chip">Web Audio</span><span class="chip">インストール不要</span>
+        </div>
+        <div class="foot">
+          <!-- TODO: 正しいURLに修正してください -->
+          <a class="main" href="https://plantssystem.github.io/KORPER/" target="_blank" rel="noopener">開く ↗</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- SYSTEM-83 -->
+    <article class="card reveal" style="--c:#7dffb0;--c2:#5ad1ff">
+      <div class="art">
+        <span class="badge mono">BROWSER · LINUX</span>
+        <svg viewBox="0 0 330 150" preserveAspectRatio="none" fill="none" stroke="#7dffb0" stroke-opacity=".7">
+          <path d="M10 110 L50 110 L50 70 L90 70 L90 100 L130 100 L130 40 L170 40 L170 90 L210 90 L210 60 L250 60 L250 105 L320 105"/>
+          <path d="M10 125 L320 125" stroke-opacity=".25" stroke-dasharray="3 5"/>
+        </svg>
+      </div>
+      <div class="body">
+        <div class="sub mono">PPG × FAIRLIGHT STYLE SYNTH / SAMPLER</div>
+        <h3>SYSTEM-83</h3>
+        <p>80年代前半のデジタル・シンセ/サンプラーの空気感を再現した、MIDIプレイヤー兼シンセ。鋭いブラスと立ったベース、XG対応のドラム。読み込んだMIDIを変異(ミューテーション)させて、別の曲へ育てることもできます。</p>
+        <div class="chips">
+          <span class="chip">MIDI読み込み</span><span class="chip">XGドラム対応</span><span class="chip">MUTATE</span><span class="chip">R SEQUENCE</span>
+        </div>
+        <div class="foot">
+          <a class="main" href="https://plantssystem.github.io/SYSTEM83/" target="_blank" rel="noopener">開く ↗</a>
+        </div>
+      </div>
+    </article>
+
+  </div>
+  <div class="note reveal"><b>SYSTEM-83 について:</b> 本アプリにMIDIファイルは同梱していません。お手持ちの MIDI ファイルを読み込んでお使いください。The System / Robert Palmer の楽曲の雰囲気にインスパイアされた、非公式のトリビュート作品です。</div>
+</section>
+
+<!-- ================= VITA ================= -->
+<section class="block" id="vita">
+  <div class="sec-head reveal">
+    <div>
+      <span class="tag mono">02 — PS VITA</span>
+      <h2>PS Vita アプリ</h2>
+    </div>
+    <p>ブラウザ版をそのまま小さな携帯機へ。Vita 本体だけで動く、スタンドアロンの楽器です(VPK形式、改造済み Vita が必要)。</p>
   </div>
 
+  <div class="grid">
 
+    <article class="card reveal" style="--c:#5ad1ff;--c2:#7dffb0">
+      <div class="art">
+        <span class="badge mono">PS VITA · VPK</span>
+        <svg viewBox="0 0 330 150" preserveAspectRatio="none" fill="none" stroke="#5ad1ff" stroke-opacity=".75">
+          <path d="M20 90 H70 L82 40 L96 120 L110 90 H150"/>
+          <path d="M170 90 H200 L208 60 L218 110 L226 90 H310" stroke-opacity=".45"/>
+          <g fill="#5ad1ff" stroke="none"><circle cx="40" cy="30" r="2.5"/><circle cx="240" cy="28" r="2.5"/><circle cx="290" cy="120" r="2.5"/></g>
+        </svg>
+      </div>
+      <div class="body">
+        <div class="sub mono">CLICK · PING · NOISE · ARP</div>
+        <h3>AZIMUTH</h3>
+        <p>サイン波のアルペジオ、クリック、ピン、ノイズ、そしてソニックなベース。グリッチ感のあるミニマルなパルスが、手のひらの中で鳴り続けます。起動時にはスプラッシュ画面を表示。ボタンでパラメータを操作できます。</p>
+        <div class="chips"><span class="chip">SINE / SAW アルペジオ</span><span class="chip">SONIC BASS</span><span class="chip">ステレオディレイ</span></div>
+        <div class="foot">
+          <a class="main" href="https://github.com/plantssystem/VITA/releases/latest/download/AZIMUTH.vpk">ダウンロード (VPK) ↓</a>
+          <a href="https://github.com/plantssystem/VITA/releases" target="_blank" rel="noopener">Releases</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="card reveal" style="--c:#e7efe9;--c2:#5ad1ff">
+      <div class="art">
+        <span class="badge mono">PS VITA · VPK</span>
+        <svg viewBox="0 0 330 150" preserveAspectRatio="none" stroke="#e7efe9" stroke-opacity=".7" stroke-width="2">
+          <line x1="40" y1="30" x2="40" y2="120"/><line x1="50" y1="30" x2="50" y2="120"/><line x1="66" y1="30" x2="66" y2="120"/>
+          <line x1="78" y1="30" x2="78" y2="120"/><line x1="100" y1="30" x2="100" y2="120"/><line x1="116" y1="30" x2="116" y2="120"/>
+          <line x1="124" y1="30" x2="124" y2="120"/><line x1="146" y1="30" x2="146" y2="120"/>
+        </svg>
+      </div>
+      <div class="body">
+        <div class="sub mono">SINE · NOISE · LFSR</div>
+        <h3>Register</h3>
+        <p>ブラウザ版 Register の Vita 移植版。バーコードや3Dワイヤフレームが小さな画面でそのまま動き、通勤電車の中でもミニマルなデータ音楽を鳴らせます。</p>
+        <div class="chips"><span class="chip">LFSR</span><span class="chip">スタンドアロン</span></div>
+        <div class="foot">
+          <a class="main" href="https://github.com/plantssystem/VITA/releases/latest/download/REGISTER.vpk">ダウンロード (VPK) ↓</a>
+          <a href="https://github.com/plantssystem/VITA/releases" target="_blank" rel="noopener">Releases</a>
+        </div>
+      </div>
+    </article>
+
+    <article class="card reveal" style="--c:#ffb86b;--c2:#ff6b8b">
+      <div class="art">
+        <span class="badge mono">PS VITA · VPK</span>
+        <svg viewBox="0 0 330 150" preserveAspectRatio="none" fill="none" stroke="#ffb86b" stroke-opacity=".7">
+          <path d="M0 100 Q40 40 80 90 T160 80 T240 60 T330 90"/>
+          <path d="M0 115 Q50 70 90 105 T170 95 T250 85 T330 110" stroke-opacity=".35"/>
+        </svg>
+      </div>
+      <div class="body">
+        <div class="sub mono">POLY SAMPLER × GENERATIVE MELODY</div>
+        <h3>PROPHETIQUE</h3>
+        <p>Prophet-5 の1音から作る5音ポリのサンプラーと、自動生成される旋律。ブラウザ版の世界観を、Vita のボタン操作で手軽に楽しめるようにした移植版です。</p>
+        <div class="chips"><span class="chip">5音ポリ</span><span class="chip">4トラック</span><span class="chip">スタンドアロン</span></div>
+        <div class="foot">
+          <a class="main" href="https://github.com/plantssystem/VITA/releases/latest/download/PROPHETIQUE.vpk">ダウンロード (VPK) ↓</a>
+          <a href="https://github.com/plantssystem/VITA/releases" target="_blank" rel="noopener">Releases</a>
+        </div>
+      </div>
+    </article>
+
+  </div>
+  <div class="note reveal"><b>インストールについて:</b> Vita版は <code>.vpk</code> 形式です。改造済みの PS Vita(h-encore² など)に、VitaShell 等でインストールしてください。※ 動作確認は FW 3.65〜3.74 の実機で行っています。</div>
+</section>
+
+<!-- ================= LINUX ================= -->
+<section class="block" id="linux">
+  <div class="sec-head reveal">
+    <div>
+      <span class="tag mono">03 — LINUX</span>
+      <h2>Linux アプリ / VST</h2>
+    </div>
+    <p>デスクトップアプリ(Electron)と、DAWで使えるVSTプラグイン。Linux上の制作環境にそのまま組み込めます。</p>
+  </div>
+
+  <div class="grid">
+    <article class="card reveal" style="--c:#7dffb0;--c2:#5ad1ff">
+      <div class="art">
+        <span class="badge mono">LINUX · ELECTRON</span>
+        <svg viewBox="0 0 330 150" preserveAspectRatio="none" fill="none" stroke="#7dffb0" stroke-opacity=".7">
+          <rect x="60" y="30" width="210" height="90" rx="10"/><path d="M60 52H270"/>
+          <g fill="#7dffb0" stroke="none"><circle cx="76" cy="41" r="3"/><circle cx="88" cy="41" r="3"/><circle cx="100" cy="41" r="3"/></g>
+          <path d="M84 98 L112 98 L112 78 L140 78 L140 92 L168 92 L168 70 L196 70 L196 90 L246 90" />
+        </svg>
+      </div>
+      <div class="body">
+        <div class="sub mono">DESKTOP APP</div>
+        <h3>SYSTEM-83</h3>
+        <p>ブラウザ版 SYSTEM-83 を Electron でパッケージしたデスクトップ版。ブラウザのタブに左右されず、独立したウィンドウでMIDIを読み込んで演奏できます。AppImage 形式で、ダウンロードしてすぐに起動できます。</p>
+        <div class="chips"><span class="chip">Electron</span><span class="chip">MIDI読み込み</span><span class="chip">XGドラム対応</span></div>
+        <div class="foot">
+          <a class="main" href="https://github.com/plantssystem/SYSTEM83/releases/latest/download/SYSTEM-83-1.0.0.AppImage">ダウンロード (AppImage) ↓</a>
+          <a href="https://github.com/plantssystem/SYSTEM83/releases" target="_blank" rel="noopener">Releases</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- LMD649 VST -->
+    <article class="card reveal" style="--c:#e7efe9;--c2:#ff6b8b">
+      <div class="art">
+        <span class="badge mono">LINUX · VST3 / CLAP / LV2</span>
+        <svg viewBox="0 0 330 150" preserveAspectRatio="none" fill="none" stroke="#e7efe9" stroke-opacity=".7">
+          <rect x="50" y="30" width="230" height="90" rx="6"/>
+          <g fill="#e7efe9" stroke="none" fill-opacity=".75">
+            <rect x="64" y="44" width="22" height="14"/><rect x="94" y="44" width="22" height="14"/><rect x="154" y="44" width="22" height="14"/><rect x="214" y="44" width="22" height="14"/>
+            <rect x="64" y="66" width="22" height="14"/><rect x="124" y="66" width="22" height="14"/><rect x="184" y="66" width="22" height="14"/><rect x="244" y="66" width="22" height="14"/>
+            <rect x="94" y="88" width="22" height="14"/><rect x="154" y="88" width="22" height="14"/><rect x="214" y="88" width="22" height="14"/>
+          </g>
+        </svg>
+      </div>
+      <div class="body">
+        <div class="sub mono">SAMPLER / RHYTHM PLUGIN</div>
+        <h3>LMD649</h3>
+        <!-- TODO: 実際の機能に合わせて説明文を調整してください -->
+        <p>YMO「BGM」「テクノデリック」期のサンプラー LMD-649 をモチーフにした、リズム/サンプラー系のプラグイン。液晶風のUIを備え、GACHA ボタンで一発ごとにパターンをランダム生成できます。Renoise(Linux)での動作を確認しています。</p>
+        <div class="chips"><span class="chip">VST3</span><span class="chip">CLAP</span><span class="chip">LV2</span><span class="chip">GACHA</span><span class="chip">液晶UI</span></div>
+        <div class="foot">
+          <a class="main" href="https://github.com/plantssystem/VST/releases/latest/download/LMD649-linux.tar.gz">ダウンロード (tar.gz) ↓</a>
+          <a href="https://github.com/plantssystem/VST/releases" target="_blank" rel="noopener">Releases</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- KORPER VST -->
+    <article class="card reveal" style="--c:#c792ff;--c2:#ff6b8b">
+      <div class="art">
+        <span class="badge mono">LINUX · VST</span>
+        <svg viewBox="0 0 330 150" preserveAspectRatio="none" fill="none" stroke="#c792ff" stroke-opacity=".7">
+          <circle cx="165" cy="75" r="22"/><circle cx="165" cy="75" r="44" stroke-opacity=".5"/><circle cx="165" cy="75" r="66" stroke-opacity=".3"/><circle cx="165" cy="75" r="88" stroke-opacity=".15"/>
+        </svg>
+      </div>
+      <div class="body">
+        <div class="sub mono">EBM INSTRUMENT PLUGIN</div>
+        <h3>KORPER</h3>
+        <!-- TODO: KORPERの説明文をさらに詳しくする場合は差し替えてください -->
+        <p>ELECTRONIC BODY MUSIC(EBM)に特化した楽器。ブラウザ版の KORPER を、DAW で使えるプラグインにした Linux 版です。トラックに挿して、そのまま曲作りに使えます。</p>
+        <div class="chips"><span class="chip">EBM</span><span class="chip">VST</span><span class="chip">Linux</span><span class="chip">DAW対応</span></div>
+        <div class="foot">
+          <a class="main" href="https://github.com/plantssystem/VST/releases/latest/download/KORPER-linux.tar.gz">ダウンロード (tar.gz) ↓</a>
+          <a href="https://github.com/plantssystem/VST/releases" target="_blank" rel="noopener">Releases</a>
+        </div>
+      </div>
+    </article>
+  </div>
+  <div class="note reveal"><b>インストールについて:</b> AppImage は、ダウンロード後に実行権限を付けて起動してください(<code>chmod +x SYSTEM-83-1.0.0.AppImage</code> → <code>./SYSTEM-83-1.0.0.AppImage</code>)。VST は <code>tar.gz</code> を展開し、<code>~/.vst3/</code>・<code>~/.clap/</code>・<code>~/.lv2/</code> のいずれかにコピーしてください。</div>
+</section>
+
+<!-- ================= ABOUT ================= -->
+<section class="block" id="about">
+  <div class="about reveal">
+    <div>
+      <span class="tag mono">04 — ABOUT</span>
+      <h2 style="font-size:clamp(1.8rem,4vw,2.6rem);margin-bottom:20px">About PlantsSystem</h2>
+      <p>PlantsSystem は、osamu のプライベート・ブランドです。Raspberry Pi Pico 2 の楽器づくりから始まり、今はその世界観を、ブラウザ、PS Vita、Linux へと広げています。</p>
+      <p>どれも、自動で生まれ続ける音を聴いて楽しむジェネレーティブな作品です。気に入ったものがあれば、ぜひ鳴らしてみてください。</p>
+      <div class="cta" style="margin-top:22px">
+        <a class="btn ghost" href="https://x.com/plantssystem89" target="_blank" rel="noopener">X @plantssystem89</a>
+        <a class="btn ghost" href="https://github.com/plantssystem" target="_blank" rel="noopener">GitHub</a>
+      </div>
+    </div>
+    <div class="kos mono">
+      <h4>PLATFORMS</h4>
+      <ul>
+        <li><b>Browser</b><span>5 apps</span></li>
+        <li><b>PS Vita</b><span>3 apps</span></li>
+        <li><b>Linux</b><span>3 apps / VST</span></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div>© 2026 PlantsSystem — created by osamu/plantssystem</div>
+    <div><a href="https://github.com/plantssystem" target="_blank" rel="noopener">GitHub</a> · <a href="https://x.com/plantssystem89" target="_blank" rel="noopener">X</a></div>
+  </div>
+</footer>
+
+<script>
+// scroll reveal
+const io = new IntersectionObserver(es => es.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target);} }), {threshold:.12});
+document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+
+// hero background: drifting "seeds" connected by faint lines
+(() => {
+  const c = document.getElementById('bg'), x = c.getContext('2d');
+  let w, h, pts = [];
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function size(){
+    const r = devicePixelRatio || 1;
+    w = c.clientWidth; h = c.clientHeight;
+    c.width = w*r; c.height = h*r; x.setTransform(r,0,0,r,0,0);
+    const n = Math.min(70, Math.floor(w*h/22000));
+    pts = Array.from({length:n}, () => ({x:Math.random()*w, y:Math.random()*h, vx:(Math.random()-.5)*.25, vy:-Math.random()*.25-.05}));
+  }
+  function draw(){
+    x.clearRect(0,0,w,h);
+    for(const p of pts){
+      if(!reduce){ p.x += p.vx; p.y += p.vy; }
+      if(p.y < -10) { p.y = h+10; p.x = Math.random()*w; }
+      if(p.x < -10) p.x = w+10; if(p.x > w+10) p.x = -10;
+    }
+    for(let i=0;i<pts.length;i++){
+      for(let j=i+1;j<pts.length;j++){
+        const dx = pts[i].x-pts[j].x, dy = pts[i].y-pts[j].y, d = Math.hypot(dx,dy);
+        if(d < 140){ x.strokeStyle = `rgba(125,255,176,${.16*(1-d/140)})`; x.beginPath(); x.moveTo(pts[i].x,pts[i].y); x.lineTo(pts[j].x,pts[j].y); x.stroke(); }
+      }
+    }
+    for(const p of pts){ x.fillStyle = 'rgba(125,255,176,.7)'; x.beginPath(); x.arc(p.x,p.y,1.6,0,6.283); x.fill(); }
+    if(!reduce) requestAnimationFrame(draw);
+  }
+  addEventListener('resize', () => { size(); if(reduce) draw(); });
+  size(); draw();
+})();
+</script>
 </body>
 </html>
