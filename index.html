@@ -114,6 +114,15 @@ footer a:hover{color:var(--accent)}
 .dot-title{margin:22px 0 26px;line-height:0;font-size:0}
 .dot-title canvas{display:block;max-width:none}
 .sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* videos */
+.vgrid{display:grid;gap:22px;grid-template-columns:repeat(auto-fit,minmax(380px,1fr))}
+@media(max-width:480px){.vgrid{grid-template-columns:1fr}}
+.vcard{background:var(--card);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.vcard video{display:block;width:100%;background:#000;aspect-ratio:var(--ar)}
+.vcard .vbody{padding:18px 22px 22px}
+.vcard h3{font-size:1.25rem;letter-spacing:.02em;margin:4px 0 6px}
+.vcard p{color:var(--muted);font-size:.9rem}
 </style>
 </head>
 <body>
@@ -128,6 +137,7 @@ footer a:hover{color:var(--accent)}
       <a href="#browser">Browser</a>
       <a href="#vita">PS Vita</a>
       <a href="#linux">Linux</a>
+      <a href="#video">Video</a>
       <a href="#about">About</a>
     </div>
   </div>
@@ -138,11 +148,12 @@ footer a:hover{color:var(--accent)}
   <div class="wrap">
     <div class="eyebrow mono">generative instruments · by PlantsSystem</div>
     <h1 class="dot-title"><span class="sr">Generative Sound Works</span><canvas id="dotTitle" aria-hidden="true"></canvas></h1>
-    <p class="lead">PlantsSystemは、アナログとデジタルの両方を駆使する音響アーティストです。ブラウザ・PS Vita・Linux(アプリ/VST)で動く、ジェネレーティブなシンセとシーケンサーを公開しています。インストール不要のものは、今すぐここから鳴らせます。</p>
+    <p class="lead">plantssystemは、アナログとデジタルの両方を駆使する音響アーティストです。ブラウザ・PS Vita・Linux(アプリ/VST)で動く、ジェネレーティブなシンセとシーケンサーを公開しています。インストール不要のものは、今すぐここから鳴らせます。</p>
     <div class="cta">
       <a class="btn primary" href="#browser">ブラウザで試す →</a>
       <a class="btn ghost" href="#vita">PS Vita版を見る</a>
       <a class="btn ghost" href="#linux">Linux版</a>
+      <a class="btn ghost" href="#video">デモ動画 ▶</a>
     </div>
     <div class="stats mono">
       <div><b>5</b><small>BROWSER APPS</small></div>
@@ -452,11 +463,44 @@ footer a:hover{color:var(--accent)}
   <div class="note reveal"><b>インストールについて:</b> AppImage は、ダウンロード後に実行権限を付けて起動してください(<code>chmod +x SYSTEM-83-1.0.0.AppImage</code> → <code>./SYSTEM-83-1.0.0.AppImage</code>)。VST は <code>tar.gz</code> を展開し、<code>~/.vst3/</code>・<code>~/.clap/</code>・<code>~/.lv2/</code> のいずれかにコピーしてください。</div>
 </section>
 
+<!-- ================= VIDEO ================= -->
+<section class="block" id="video">
+  <div class="sec-head reveal">
+    <div>
+      <span class="tag mono">04 — VIDEO</span>
+      <h2>デモ動画</h2>
+    </div>
+    <p>実際の動作を動画でご覧いただけます。音も出ますので、音量にご注意ください。</p>
+  </div>
+  <div class="vgrid">
+    <article class="vcard reveal">
+      <video controls preload="metadata" playsinline poster="videos/lmd_korper_poster.jpg" style="--ar:1366/734">
+        <source src="videos/lmd_korper.mp4" type="video/mp4">
+      </video>
+      <div class="vbody">
+        <div class="sub mono" style="color:var(--accent)">LINUX · VST</div>
+        <h3>LMD649 / KORPER</h3>
+        <p>Linux の DAW(Renoise)上で動く、2つの VST プラグインのデモ。ローファイなサンプラー/リズムシーケンサー LMD649 と、EBM に特化したシンセ&ドラムマシン KORPER。</p>
+      </div>
+    </article>
+    <article class="vcard reveal">
+      <video controls preload="metadata" playsinline poster="videos/azimuth_register_prophetique_poster.jpg" style="--ar:16/9">
+        <source src="videos/azimuth_register_prophetique_vita_v3.mp4" type="video/mp4">
+      </video>
+      <div class="vbody">
+        <div class="sub mono" style="color:var(--accent2)">PS VITA</div>
+        <h3>AZIMUTH / Register / PROPHETIQUE</h3>
+        <p>PS Vita 版3本を、実機で動かしているデモ。ミニマルなグリッチ・マシンの AZIMUTH、バーコードと3Dワイヤーフレームの Register、自動作曲する5音ポリのサンプラー PROPHETIQUE の順に紹介します。</p>
+      </div>
+    </article>
+  </div>
+</section>
+
 <!-- ================= ABOUT ================= -->
 <section class="block" id="about">
   <div class="about reveal">
     <div>
-      <span class="tag mono">04 — ABOUT</span>
+      <span class="tag mono">05 — ABOUT</span>
       <h2 style="font-size:clamp(1.8rem,4vw,2.6rem);margin-bottom:20px">About PlantsSystem</h2>
       <p>PlantsSystem は、osamu のプライベート・ブランドです。Raspberry Pi Pico 2 の楽器づくりから始まり、今はその世界観を、ブラウザ、PS Vita、Linux へと広げています。</p>
       <p>どれも、自動で生まれ続ける音を聴いて楽しむジェネレーティブな作品です。気に入ったものがあれば、ぜひ鳴らしてみてください。</p>
