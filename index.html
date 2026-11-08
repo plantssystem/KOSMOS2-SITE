@@ -111,6 +111,9 @@ footer a:hover{color:var(--accent)}
 .reveal{opacity:0;transform:translateY(24px);transition:opacity .8s,transform .8s}
 .reveal.in{opacity:1;transform:none}
 @media(prefers-reduced-motion:reduce){.reveal{opacity:1;transform:none;transition:none}html{scroll-behavior:auto}}
+.dot-title{margin:22px 0 26px;line-height:0;font-size:0}
+.dot-title canvas{display:block;max-width:none}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 </style>
 </head>
 <body>
@@ -134,7 +137,7 @@ footer a:hover{color:var(--accent)}
   <canvas id="bg"></canvas>
   <div class="wrap">
     <div class="eyebrow mono">generative instruments · by PlantsSystem</div>
-    <h1>Generative<br><span>Sound Works</span></h1>
+    <h1 class="dot-title"><span class="sr">Generative Sound Works</span><canvas id="dotTitle" aria-hidden="true"></canvas></h1>
     <p class="lead">plantssystemは、アナログとデジタルの両方を駆使する音響アーティストです。ブラウザ・PS Vita・Linux(アプリ/VST)で動く、ジェネレーティブなシンセとシーケンサーを公開しています。インストール不要のものは、今すぐここから鳴らせます。</p>
     <div class="cta">
       <a class="btn primary" href="#browser">ブラウザで試す →</a>
@@ -516,6 +519,84 @@ document.querySelectorAll('.reveal').forEach(el => io.observe(el));
   }
   addEventListener('resize', () => { size(); if(reduce) draw(); });
   size(); draw();
+})();
+
+// dot-matrix (LED) title
+(() => {
+  const cv = document.getElementById('dotTitle'); if(!cv) return;
+  const ctx = cv.getContext('2d');
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const F = {
+    G:['01110','10001','10000','10111','10001','10001','01111'],
+    E:['11111','10000','10000','11110','10000','10000','11111'],
+    N:['10001','11001','10101','10101','10011','10001','10001'],
+    R:['11110','10001','10001','11110','10100','10010','10001'],
+    A:['01110','10001','10001','11111','10001','10001','10001'],
+    T:['11111','00100','00100','00100','00100','00100','00100'],
+    I:['01110','00100','00100','00100','00100','00100','01110'],
+    V:['10001','10001','10001','10001','10001','01010','00100'],
+    S:['01111','10000','10000','01110','00001','00001','11110'],
+    O:['01110','10001','10001','10001','10001','10001','01110'],
+    U:['10001','10001','10001','10001','10001','10001','01110'],
+    D:['11110','10001','10001','10001','10001','10001','11110'],
+    W:['10001','10001','10001','10101','10101','10101','01010'],
+    K:['10001','10010','10100','11000','10100','10010','10001']
+  };
+  function build(line){
+    const cols = [];
+    for(const ch of line){
+      if(ch === ' '){ for(let i=0;i<3;i++) cols.push(Array(7).fill(0)); continue; }
+      const g = F[ch];
+      for(let c=0;c<5;c++) cols.push(g.map(row => +row[c]));
+      cols.push(Array(7).fill(0));
+    }
+    cols.pop(); return cols;
+  }
+  let grids, cell, W, H, raf, pad;
+  function layout(){
+    const w = Math.min(innerWidth - 48, 1000);
+    const lines = w < 620 ? ['GENERATIVE','SOUND','WORKS'] : ['GENERATIVE','SOUND WORKS'];
+    grids = lines.map(build);
+    const maxCols = Math.max(...grids.map(g => g.length));
+    cell = Math.min(16, w / maxCols);
+    W = maxCols * cell; H = (lines.length * 7 + (lines.length - 1) * 2) * cell;
+    pad = cell * 1.5;
+    const r = devicePixelRatio || 1, TW = W + 2*pad, TH = H + 2*pad;
+    cv.width = Math.ceil(TW*r); cv.height = Math.ceil(TH*r);
+    cv.style.width = TW + 'px'; cv.style.height = TH + 'px'; cv.style.margin = (-pad) + 'px';
+    ctx.setTransform(r,0,0,r,pad*r,pad*r);
+  }
+  const A = [125,255,176], B = [90,209,255];
+  const mix = k => A.map((a,i) => Math.round(a + (B[i]-a)*k));
+  function draw(t){
+    ctx.clearRect(-pad,-pad,W+2*pad,H+2*pad);
+    const sweep = reduce ? -1e9 : (((t/1000) * 0.22) % 1.5 - 0.25) * W;
+    grids.forEach((g, li) => {
+      for(let c=0;c<g.length;c++){
+        const x = (c + .5) * cell, k = x / W, col = mix(k).join(',');
+        const boost = Math.max(0, 1 - Math.abs(x - sweep) / (cell * 9));
+        for(let r=0;r<7;r++){
+          const y = (li * 9 + r + .5) * cell;
+          ctx.beginPath();
+          if(g[c][r]){
+            ctx.shadowColor = 'rgba(' + col + ',.9)'; ctx.shadowBlur = cell * (.7 + boost);
+            ctx.fillStyle = 'rgba(' + col + ',' + (.82 + .18*boost) + ')';
+            ctx.arc(x, y, cell * (.36 + .07*boost), 0, 6.2832);
+          } else {
+            ctx.shadowBlur = 0;
+            ctx.fillStyle = 'rgba(125,255,176,.07)';
+            ctx.arc(x, y, cell * .17, 0, 6.2832);
+          }
+          ctx.fill();
+        }
+      }
+    });
+    ctx.shadowBlur = 0;
+    if(!reduce) raf = requestAnimationFrame(draw);
+  }
+  function start(){ cancelAnimationFrame(raf); layout(); draw(performance.now()); }
+  addEventListener('resize', start);
+  start();
 })();
 </script>
 </body>
