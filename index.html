@@ -158,7 +158,7 @@ footer a:hover{color:var(--accent)}
     <div class="stats mono">
       <div><b>5</b><small>BROWSER APPS</small></div>
       <div><b>6</b><small>PS VITA APPS</small></div>
-      <div><b>4</b><small>LINUX APP / VST</small></div>
+      <div><b>5</b><small>LINUX APP / VST</small></div>
     </div>
   </div>
 </header>
@@ -453,7 +453,7 @@ footer a:hover{color:var(--accent)}
       <span class="tag mono">03 — LINUX</span>
       <h2>Linux アプリ / VST</h2>
     </div>
-    <p>デスクトップアプリ(Electron)と、DAWで使えるVSTプラグイン。Linux上の制作環境にそのまま組み込めます。</p>
+    <p>デスクトップアプリ(AppImage)と、DAWで使えるVSTプラグイン。Linux上の制作環境にそのまま組み込めます。</p>
   </div>
 
   <div class="grid">
@@ -474,6 +474,35 @@ footer a:hover{color:var(--accent)}
         <div class="foot">
           <a class="main" href="https://github.com/plantssystem/SYSTEM83/releases/latest/download/SYSTEM-83-1.0.0.AppImage">ダウンロード (AppImage) ↓</a>
           <a href="https://github.com/plantssystem/SYSTEM83/releases" target="_blank" rel="noopener">Releases</a>
+        </div>
+      </div>
+    </article>
+
+    <!-- KHAOS -->
+    <article class="card reveal" style="--c:#50ffdc;--c2:#ff5ac8">
+      <div class="art">
+        <span class="badge mono">LINUX · PICO 2</span>
+        <svg viewBox="0 0 330 150" preserveAspectRatio="none" fill="none" stroke="#50ffdc" stroke-opacity=".75">
+          <path d="M10 75H60C90 75 100 50 130 50C160 50 170 40 200 38H235"/>
+          <path d="M60 75C90 75 100 100 130 100C160 100 170 110 200 112H235"/>
+          <path d="M200 38C215 38 220 28 235 28M200 38C215 38 220 50 235 50M200 112C215 112 220 102 235 102M200 112C215 112 220 124 235 124" stroke-opacity=".55"/>
+          <g fill="#ff5ac8" stroke="none" fill-opacity=".7">
+            <circle cx="246" cy="24" r="1.6"/><circle cx="256" cy="46" r="1.6"/><circle cx="263" cy="30" r="1.6"/><circle cx="272" cy="58" r="1.6"/>
+            <circle cx="281" cy="22" r="1.6"/><circle cx="290" cy="40" r="1.6"/><circle cx="299" cy="64" r="1.6"/><circle cx="308" cy="28" r="1.6"/>
+            <circle cx="318" cy="52" r="1.6"/><circle cx="250" cy="104" r="1.6"/><circle cx="262" cy="126" r="1.6"/><circle cx="270" cy="96" r="1.6"/>
+            <circle cx="284" cy="118" r="1.6"/><circle cx="293" cy="90" r="1.6"/><circle cx="305" cy="124" r="1.6"/><circle cx="316" cy="100" r="1.6"/>
+          </g>
+        </svg>
+      </div>
+      <div class="body">
+        <div class="sub mono">NOISE / DRONE SYNTH</div>
+        <h3>KHAOS</h3>
+        <p>2つのオシレーターが互いにFMし合い、カオス写像で揺れ続けるノイズ/ドローン・シンセ。LFSR・ロジスティック写像・ノイズの3つのカオスCVが、ピッチやフィルターを動かします。Raspberry Pi Pico 2 で動く楽器を、同じ音のエンジンのまま Linux 用にしたものです。起動時は、分岐図が描かれてタイトルが浮かび上がるスプラッシュ。</p>
+        <div class="chips"><span class="chip">クロスFM</span><span class="chip">CHAOS CV</span><span class="chip">共振SVF</span><span class="chip">CRUSH</span><span class="chip">AppImage</span><span class="chip">Pico 2版あり</span></div>
+        <div class="foot">
+          <a class="main" href="https://github.com/plantssystem/KHAOS/releases/latest/download/KHAOS-1.0.0-x86_64.AppImage">ダウンロード (AppImage) ↓</a>
+          <a href="https://github.com/plantssystem/KHAOS/releases" target="_blank" rel="noopener">Releases</a>
+          <a href="https://github.com/plantssystem/KHAOS" target="_blank" rel="noopener">GitHub</a>
         </div>
       </div>
     </article>
@@ -549,7 +578,7 @@ footer a:hover{color:var(--accent)}
       </div>
     </article>
   </div>
-  <div class="note reveal"><b>インストールについて:</b> AppImage は、ダウンロード後に実行権限を付けて起動してください(<code>chmod +x SYSTEM-83-1.0.0.AppImage</code> → <code>./SYSTEM-83-1.0.0.AppImage</code>)。VST は <code>tar.gz</code> を展開し、<code>~/.vst3/</code>・<code>~/.clap/</code>・<code>~/.lv2/</code> のいずれかにコピーしてください。</div>
+  <div class="note reveal"><b>インストールについて:</b> AppImage は、ダウンロード後に実行権限を付けて起動してください(<code>chmod +x SYSTEM-83-1.0.0.AppImage</code> → <code>./SYSTEM-83-1.0.0.AppImage</code>。KHAOS も同じ手順です)。VST は <code>tar.gz</code> を展開し、<code>~/.vst3/</code>・<code>~/.clap/</code>・<code>~/.lv2/</code> のいずれかにコピーしてください。</div>
 </section>
 
 <!-- ================= VIDEO ================= -->
@@ -644,7 +673,7 @@ footer a:hover{color:var(--accent)}
       <ul>
         <li><b>Browser</b><span>5 apps</span></li>
         <li><b>PS Vita</b><span>6 apps</span></li>
-        <li><b>Linux</b><span>4 apps / VST</span></li>
+        <li><b>Linux</b><span>5 apps / VST</span></li>
       </ul>
     </div>
   </div>
